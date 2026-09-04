@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Digital Literacy Assessment - Data Science
+    </title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+        /* =========================
+           BASIC SETTINGS
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        body {
+            background: #f4f6fb;
+            color: #222;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #172554;
+
+            color: white;
+
+            padding: 25px 15px;
+
+        }
+
+
+        .logo {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .logo h2 {
+
+            font-size: 20px;
+
+        }
+
+
+        .logo p {
+
+            font-size: 12px;
+
+            margin-top: 5px;
+
+            opacity: 0.8;
+
+        }
+
+
+        .menu button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-bottom: 10px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: white;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+        }
+
+
+        .menu button:hover {
+
+            background: #2563eb;
+
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main {
+
+            margin-left: 240px;
+
+            padding: 25px;
+
+        }
+
+
+        .topbar {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+        }
+
+
+        .topbar h1 {
+
+            color: #172554;
+
+        }
+
+
+        .topbar p {
+
+            margin-top: 5px;
+
+            color: #666;
+
+        }
+
+
+        /* =========================
+           PAGE SECTIONS
+        ========================= */
+
+        .page {
+
+            display: none;
+
+        }
+
+
+        .page.active {
+
+            display: block;
+
+        }
+
+
+        /* =========================
+           KPI CARDS
+        ========================= */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+        }
+
+
+        .card h3 {
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .card h2 {
+
+            font-size: 30px;
+
+            color: #2563eb;
+
+        }
+
+
+        /* =========================
+           CHART AREA
+        ========================= */
+
+        .chart-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        .chart-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+        }
+
+
+        .chart-card h2 {
+
+            margin-bottom: 20px;
+
+            color: #172554;
+
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-card {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+        }
+
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+        }
+
+
+        .skills-title {
+
+            margin: 25px 0 15px;
+
+            color: #172554;
+
+        }
+
+
+        .submit-btn {
+
+            width: 100%;
+
+            padding: 15px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+        }
+
+
+        .submit-btn:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        /* =========================
+           ANALYSIS
+        ========================= */
+
+        .analysis-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        .analysis-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+        }
+
+
+        .analysis-card h2 {
+
+            color: #172554;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .progress-container {
+
+            background: #ddd;
+
+            height: 25px;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-bar {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #2563eb;
+
+            transition: 0.5s;
+
+        }
+
+
+        .insight {
+
+            line-height: 1.7;
+
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        th {
+
+            background: #172554;
+
+            color: white;
+
+            padding: 12px;
+
+        }
+
+
+        td {
+
+            padding: 12px;
+
+            text-align: center;
+
+            border-bottom: 1px solid #ddd;
+
+        }
+
+
+        .advanced {
+
+            color: green;
+
+            font-weight: bold;
+
+        }
+
+
+        .intermediate {
+
+            color: orange;
+
+            font-weight: bold;
+
+        }
+
+
+        .basic {
+
+            color: red;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 1000px) {
+
+            .cards {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+            .chart-grid,
+            .analysis-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .cards {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <h2>📊 Digital Literacy</h2>
+
+        <p>Data Science Platform</p>
+
+    </div>
+
+
+    <div class="menu">
+
+        <button onclick="showPage('dashboard')">
+
+            🏠 Dashboard
+
+        </button>
+
+
+        <button onclick="showPage('assessment')">
+
+            📝 Assessment Form
+
+        </button>
+
+
+        <button onclick="showPage('analysis')">
+
+            🧠 Data Analysis
+
+        </button>
+
+
+        <button onclick="showPage('results')">
+
+            📋 Results
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="main">
+
+
+    <div class="topbar">
+
+        <h1>
+            Digital Literacy Assessment Impact
+        </h1>
+
+        <p>
+            Real-Time Data Science Performance Dashboard
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+    <section
+        id="dashboard"
+        class="page active"
+    >
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <h3>
+                    Total Assessments
+                </h3>
+
+                <h2 id="total">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Average Score
+                </h3>
+
+                <h2 id="average">
+                    0%
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Digital Literacy Rate
+                </h3>
+
+                <h2 id="literacy">
+                    0%
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    At-Risk Students
+                </h3>
+
+                <h2 id="risk">
+                    0
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="chart-grid">
+
+
+            <div class="chart-card">
+
+                <h2>
+                    📈 Performance Trend
+                </h2>
+
+                <canvas id="trendChart"></canvas>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <h2>
+                    📊 Skill Performance
+                </h2>
+
+                <canvas id="skillChart"></canvas>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <h2>
+                    🎯 Literacy Level Distribution
+                </h2>
+
+                <canvas id="levelChart"></canvas>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <h2>
+                    🔎 Skill Comparison
+                </h2>
+
+                <canvas id="comparisonChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ASSESSMENT FORM
+    ================================================= -->
+
+    <section
+        id="assessment"
+        class="page"
+    >
+
+        <div class="form-card">
+
+            <h2>
+                📝 Digital Literacy Assessment Form
+            </h2>
+
+            <br>
+
+
+            <form id="assessmentForm">
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Student Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter student name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Student ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="studentId"
+                            placeholder="Enter student ID"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Class / Department
+                        </label>
+
+                        <input
+                            type="text"
+                            id="department"
+                            placeholder="Example: BCA"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Assessment Type
+                        </label>
+
+                        <select id="assessmentType">
+
+                            <option>
+                                Pre Assessment
+                            </option>
+
+                            <option>
+                                Post Assessment
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <h3 class="skills-title">
+
+                    Digital Skills Scores
+
+                </h3>
+
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Computer Skills
+                        </label>
+
+                        <select id="computer">
+
+                            <option value="20">20</option>
+
+                            <option value="40">40</option>
+
+                            <option value="60">60</option>
+
+                            <option value="80">80</option>
+
+                            <option value="100">100</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Internet Skills
+                        </label>
+
+                        <select id="internet">
+
+                            <option value="20">20</option>
+
+                            <option value="40">40</option>
+
+                            <option value="60">60</option>
+
+                            <option value="80">80</option>
+
+                            <option value="100">100</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Cybersecurity
+                        </label>
+
+                        <select id="security">
+
+                            <option value="20">20</option>
+
+                            <option value="40">40</option>
+
+                            <option value="60">60</option>
+
+                            <option value="80">80</option>
+
+                            <option value="100">100</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Digital Communication
+                        </label>
+
+                        <select id="communication">
+
+                            <option value="20">20</option>
+
+                            <option value="40">40</option>
+
+                            <option value="60">60</option>
+
+                            <option value="80">80</option>
+
+                            <option value="100">100</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Information Literacy
+                        </label>
+
+                        <select id="information">
+
+                            <option value="20">20</option>
+
+                            <option value="40">40</option>
+
+                            <option value="60">60</option>
+
+                            <option value="80">80</option>
+
+                            <option value="100">100</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Online Safety
+                        </label>
+
+                        <select id="safety">
+
+                            <option value="20">20</option>
+
+                            <option value="40">40</option>
+
+                            <option value="60">60</option>
+
+                            <option value="80">80</option>
+
+                            <option value="100">100</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+
+                    Submit Assessment
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         DATA ANALYSIS
+    ================================================= -->
+
+    <section
+        id="analysis"
+        class="page"
+    >
+
+        <div class="analysis-grid">
+
+
+            <div class="analysis-card">
+
+                <h2>
+                    🧠 Literacy Classification
+                </h2>
+
+                <h3 id="classification">
+
+                    No data available
+
+                </h3>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <h2>
+                    📈 Overall Performance
+                </h2>
+
+
+                <div class="progress-container">
+
+                    <div
+                        class="progress-bar"
+                        id="progress"
+                    ></div>
+
+                </div>
+
+
+                <br>
+
+                <h3 id="progressText">
+                    0%
+                </h3>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <h2>
+                    🔍 Data Science Insight
+                </h2>
+
+                <p
+                    class="insight"
+                    id="insight"
+                >
+
+                    Submit assessment data
+                    to generate insights.
+
+                </p>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <h2>
+                    ⚠️ Weak Skill Detection
+                </h2>
+
+                <p id="weakSkill">
+
+                    No data available.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RESULTS
+    ================================================= -->
+
+    <section
+        id="results"
+        class="page"
+    >
+
+        <div class="table-card">
+
+            <h2>
+                📋 Student Assessment Results
+            </h2>
+
+            <br>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Score
+                        </th>
+
+                        <th>
+                            Literacy Level
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="resultsTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* =================================================
+       DATA STORAGE
+    ================================================= */
+
+    let students =
+        JSON.parse(
+            localStorage.getItem(
+                "digitalLiteracyData"
+            )
+        ) || [];
+
+
+
+    /* =================================================
+       PAGE NAVIGATION
+    ================================================= */
+
+    function showPage(pageId) {
+
+        document
+            .querySelectorAll(".page")
+            .forEach(page => {
+
+                page.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        document
+            .getElementById(pageId)
+            .classList.add("active");
+
+    }
+
+
+
+    /* =================================================
+       CHART VARIABLES
+    ================================================= */
+
+    let trendChart;
+
+    let skillChart;
+
+    let levelChart;
+
+    let comparisonChart;
+
+
+
+    /* =================================================
+       CREATE CHARTS
+    ================================================= */
+
+    function createCharts() {
+
+
+        trendChart = new Chart(
+
+            document
+                .getElementById("trendChart"),
+
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels: [],
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Performance Score",
+
+                            data: [],
+
+                            borderWidth: 3,
+
+                            tension: 0.3
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            max: 100
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+
+
+        skillChart = new Chart(
+
+            document
+                .getElementById("skillChart"),
+
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: [
+
+                        "Computer",
+
+                        "Internet",
+
+                        "Cybersecurity",
+
+                        "Communication",
+
+                        "Information",
+
+                        "Safety"
+
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Average Score",
+
+                            data: [],
+
+                            borderWidth: 1
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            max: 100
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+
+
+        levelChart = new Chart(
+
+            document
+                .getElementById("levelChart"),
+
+            {
+
+                type: "pie",
+
+                data: {
+
+                    labels: [
+
+                        "Advanced",
+
+                        "Intermediate",
+
+                        "Basic"
+
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            data: [0, 0, 0]
+
+                        }
+
+                    ]
+
+                }
+
+            }
+
+        );
+
+
+
+        comparisonChart = new Chart(
+
+            document
+                .getElementById(
+                    "comparisonChart"
+                ),
+
+            {
+
+                type: "radar",
+
+                data: {
+
+                    labels: [
+
+                        "Computer",
+
+                        "Internet",
+
+                        "Security",
+
+                        "Communication",
+
+                        "Information",
+
+                        "Safety"
+
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Digital Skills",
+
+                            data: [],
+
+                            borderWidth: 2
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    scales: {
+
+                        r: {
+
+                            beginAtZero: true,
+
+                            max: 100
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+    }
+
+
+
+    /* =================================================
+       AVERAGE SKILL
+    ================================================= */
+
+    function getSkillAverage(skill) {
+
+
+        if (
+            students.length === 0
+        ) {
+
+            return 0;
+
+        }
+
+
+        let total =
+            students.reduce(
+
+                (sum, student) =>
+
+                    sum +
+                    student[skill],
+
+                0
+
+            );
+
+
+        return (
+            total /
+            students.length
+        );
+
+    }
+
+
+
+    /* =================================================
+       UPDATE DASHBOARD
+    ================================================= */
+
+    function updateDashboard() {
+
+
+        const total =
+            students.length;
+
+
+        document
+            .getElementById("total")
+            .innerText =
+            total;
+
+
+
+        if (total === 0) {
+
+            document
+                .getElementById("average")
+                .innerText =
+                "0%";
+
+            document
+                .getElementById("literacy")
+                .innerText =
+                "0%";
+
+            document
+                .getElementById("risk")
+                .innerText =
+                "0";
+
+            return;
+
+        }
+
+
+
+        /* Average score */
+
+        const totalScore =
+            students.reduce(
+
+                (sum, student) =>
+
+                    sum +
+                    student.score,
+
+                0
+
+            );
+
+
+        const average =
+            totalScore /
+            total;
+
+
+        document
+            .getElementById("average")
+            .innerText =
+            average.toFixed(1) +
+            "%";
+
+
+        document
+            .getElementById("literacy")
+            .innerText =
+            average.toFixed(1) +
+            "%";
+
+
+
+        /* Risk */
+
+        const risk =
+            students.filter(
+
+                student =>
+                    student.score < 50
+
+            ).length;
+
+
+        document
+            .getElementById("risk")
+            .innerText =
+            risk;
+
+
+
+        /* Classification */
+
+        let classification;
+
+
+        if (average >= 80) {
+
+            classification =
+                "Advanced Digital Literacy";
+
+        }
+
+        else if (average >= 60) {
+
+            classification =
+                "Intermediate Digital Literacy";
+
+        }
+
+        else {
+
+            classification =
+                "Basic Digital Literacy";
+
+        }
+
+
+        document
+            .getElementById(
+                "classification"
+            )
+            .innerText =
+            classification;
+
+
+
+        /* Progress */
+
+        document
+            .getElementById("progress")
+            .style.width =
+            average + "%";
+
+
+        document
+            .getElementById(
+                "progressText"
+            )
+            .innerText =
+            average.toFixed(1) +
+            "%";
+
+
+
+        /* Insight */
+
+        let insight;
+
+
+        if (average >= 80) {
+
+            insight =
+                "The dataset indicates strong digital literacy performance. Most learners demonstrate advanced digital skills.";
+
+        }
+
+        else if (average >= 60) {
+
+            insight =
+                "The dataset indicates moderate digital literacy. Additional training can improve overall performance.";
+
+        }
+
+        else {
+
+            insight =
+                "The dataset indicates low digital literacy. A targeted digital skills training program is recommended.";
+
+        }
+
+
+        document
+            .getElementById("insight")
+            .innerText =
+            insight;
+
+
+
+        /* Weak skill */
+
+        const skillData = {
+
+            Computer:
+                getSkillAverage("computer"),
+
+            Internet:
+                getSkillAverage("internet"),
+
+            Cybersecurity:
+                getSkillAverage("security"),
+
+            Communication:
+                getSkillAverage("communication"),
+
+            Information:
+                getSkillAverage("information"),
+
+            Safety:
+                getSkillAverage("safety")
+
+        };
+
+
+        const weakest =
+            Object.keys(skillData)
+                .reduce(
+
+                    (a, b) =>
+                        skillData[a] <
+                        skillData[b]
+                            ? a
+                            : b
+
+                );
+
+
+        document
+            .getElementById(
+                "weakSkill"
+            )
+            .innerText =
+
+            weakest +
+            " is the weakest-performing skill with an average score of " +
+            skillData[weakest].toFixed(1) +
+            "%.";
+
+    }
+
+
+
+    /* =================================================
+       UPDATE CHARTS
+    ================================================= */
+
+    function updateCharts() {
+
+
+        const scores =
+            students.map(
+                student =>
+                    student.score
+            );
+
+
+        trendChart.data.labels =
+            students.map(
+
+                (student, index) =>
+                    "Assessment " +
+                    (index + 1)
+
+            );
+
+
+        trendChart
+            .data
+            .datasets[0]
+            .data =
+            scores;
+
+
+        trendChart.update();
+
+
+
+        /* Skill chart */
+
+        const skillScores = [
+
+            getSkillAverage(
+                "computer"
+            ),
+
+            getSkillAverage(
+                "internet"
+            ),
+
+            getSkillAverage(
+                "security"
+            ),
+
+            getSkillAverage(
+                "communication"
+            ),
+
+            getSkillAverage(
+                "information"
+            ),
+
+            getSkillAverage(
+                "safety"
+            )
+
+        ];
+
+
+        skillChart
+            .data
+            .datasets[0]
+            .data =
+            skillScores;
+
+
+        skillChart.update();
+
+
+
+        /* Level distribution */
+
+        let advanced = 0;
+
+        let intermediate = 0;
+
+        let basic = 0;
+
+
+        students.forEach(
+
+            student => {
+
+                if (
+                    student.score >= 80
+                ) {
+
+                    advanced++;
+
+                }
+
+                else if (
+                    student.score >= 60
+                ) {
+
+                    intermediate++;
+
+                }
+
+                else {
+
+                    basic++;
+
+                }
+
+            }
+
+        );
+
+
+        levelChart
+            .data
+            .datasets[0]
+            .data = [
+
+                advanced,
+
+                intermediate,
+
+                basic
+
+            ];
+
+
+        levelChart.update();
+
+
+
+        /* Radar chart */
+
+        comparisonChart
+            .data
+            .datasets[0]
+            .data =
+            skillScores;
+
+
+        comparisonChart.update();
+
+    }
+
+
+
+    /* =================================================
+       UPDATE TABLE
+    ================================================= */
+
+    function updateTable() {
+
+
+        const table =
+            document
+                .getElementById(
+                    "resultsTable"
+                );
+
+
+        table.innerHTML = "";
+
+
+        students.forEach(
+
+            student => {
+
+
+                let level;
+
+                let className;
+
+
+                if (
+                    student.score >= 80
+                ) {
+
+                    level =
+                        "Advanced";
+
+                    className =
+                        "advanced";
+
+                }
+
+                else if (
+                    student.score >= 60
+                ) {
+
+                    level =
+                        "Intermediate";
+
+                    className =
+                        "intermediate";
+
+                }
+
+                else {
+
+                    level =
+                        "Basic";
+
+                    className =
+                        "basic";
+
+                }
+
+
+
+                const row =
+                    document
+                        .createElement(
+                            "tr"
+                        );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${student.name}
+                    </td>
+
+                    <td>
+                        ${student.id}
+                    </td>
+
+                    <td>
+                        ${student.department}
+                    </td>
+
+                    <td>
+                        ${student.score.toFixed(1)}%
+                    </td>
+
+                    <td class="${className}">
+                        ${level}
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            }
+
+        );
+
+    }
+
+
+
+    /* =================================================
+       FORM SUBMISSION
+    ================================================= */
+
+    document
+        .getElementById(
+            "assessmentForm"
+        )
+        .addEventListener(
+
+            "submit",
+
+            function(event) {
+
+
+                event.preventDefault();
+
+
+
+                /* Get skill values */
+
+                const computer =
+                    Number(
+                        document
+                            .getElementById(
+                                "computer"
+                            )
+                            .value
+                    );
+
+
+                const internet =
+                    Number(
+                        document
+                            .getElementById(
+                                "internet"
+                            )
+                            .value
+                    );
+
+
+                const security =
+                    Number(
+                        document
+                            .getElementById(
+                                "security"
+                            )
+                            .value
+                    );
+
+
+                const communication =
+                    Number(
+                        document
+                            .getElementById(
+                                "communication"
+                            )
+                            .value
+                    );
+
+
+                const information =
+                    Number(
+                        document
+                            .getElementById(
+                                "information"
+                            )
+                            .value
+                    );
+
+
+                const safety =
+                    Number(
+                        document
+                            .getElementById(
+                                "safety"
+                            )
+                            .value
+                    );
+
+
+
+                /* Calculate average */
+
+                const score =
+
+                    (
+                        computer +
+                        internet +
+                        security +
+                        communication +
+                        information +
+                        safety
+
+                    ) / 6;
+
+
+
+                /* Create student object */
+
+                const student = {
+
+                    name:
+                        document
+                            .getElementById(
+                                "name"
+                            )
+                            .value,
+
+                    id:
+                        document
+                            .getElementById(
+                                "studentId"
+                            )
+                            .value,
+
+                    department:
+                        document
+                            .getElementById(
+                                "department"
+                            )
+                            .value,
+
+                    computer:
+                        computer,
+
+                    internet:
+                        internet,
+
+                    security:
+                        security,
+
+                    communication:
+                        communication,
+
+                    information:
+                        information,
+
+                    safety:
+                        safety,
+
+                    score:
+                        score
+
+                };
+
+
+
+                /* Add data */
+
+                students.push(student);
+
+
+
+                /* Save data */
+
+                localStorage.setItem(
+
+                    "digitalLiteracyData",
+
+                    JSON.stringify(
+                        students
+                    )
+
+                );
+
+
+
+                /* Update everything */
+
+                updateDashboard();
+
+                updateCharts();
+
+                updateTable();
+
+
+
+                /* Reset */
+
+                document
+                    .getElementById(
+                        "assessmentForm"
+                    )
+                    .reset();
+
+
+
+                alert(
+                    "Assessment submitted successfully!"
+                );
+
+
+
+                /* Go dashboard */
+
+                showPage(
+                    "dashboard"
+                );
+
+            }
+
+        );
+
+
+
+    /* =================================================
+       START APPLICATION
+    ================================================= */
+
+    createCharts();
+
+    updateDashboard();
+
+    updateCharts();
+
+    updateTable();
+
+
+</script>
+
+</body>
+
+</html>
